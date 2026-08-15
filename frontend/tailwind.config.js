@@ -45,6 +45,7 @@ module.exports = {
         accent: {
           DEFAULT: "hsl(var(--accent))",
           foreground: "hsl(var(--accent-foreground))",
+          light: "hsl(var(--accent-light))",
         },
         popover: {
           DEFAULT: "hsl(var(--popover))",
@@ -54,6 +55,24 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        success: {
+          DEFAULT: "hsl(var(--success))",
+          foreground: "hsl(var(--success-foreground))",
+        },
+        warning: {
+          DEFAULT: "hsl(var(--warning))",
+          foreground: "hsl(var(--warning-foreground))",
+        },
+        "primary-dark": "hsl(var(--primary-dark))",
+        "primary-light": "hsl(var(--primary-light))",
+      },
+      fontFamily: {
+        sans: ["Plus Jakarta Sans", "Inter", "system-ui", "sans-serif"],
+      },
+      boxShadow: {
+        soft: "0 2px 8px -2px rgb(22 50 79 / 0.06), 0 8px 24px -8px rgb(22 50 79 / 0.08)",
+        card: "0 1px 2px rgb(22 50 79 / 0.04), 0 4px 16px -4px rgb(22 50 79 / 0.08)",
+        lift: "0 12px 32px -8px rgb(22 50 79 / 0.18)",
       },
       borderRadius: {
         lg: "var(--radius)",

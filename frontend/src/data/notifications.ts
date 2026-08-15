@@ -1,0 +1,60 @@
+import type { Notification } from "./types"
+
+export const notifications: Notification[] = [
+  {
+    id: "n1",
+    title: "Your Bali trip is still waiting.",
+    description: "Compass can turn your confirmed flight into a full 4-day plan in minutes.",
+    date: "2 hours ago",
+    read: false,
+    type: "compass",
+  },
+  {
+    id: "n2",
+    title: "Hotel prices changed for your saved stay.",
+    description: "Ubud Green Retreat is now IDR 40,000 cheaper per night.",
+    date: "5 hours ago",
+    read: false,
+    type: "price",
+  },
+  {
+    id: "n3",
+    title: "Your trip is 65% complete.",
+    description: "Add activities for Day 3 and 4 to finish planning Bali.",
+    date: "1 day ago",
+    read: false,
+    type: "trip",
+  },
+  {
+    id: "n4",
+    title: "Activity booking confirmed.",
+    description: "Balinese Cooking Class for 2 guests is confirmed for 19 September.",
+    date: "1 day ago",
+    read: true,
+    type: "booking",
+  },
+  {
+    id: "n5",
+    title: "Flight check-in is now open.",
+    description: "Online check-in for GA 402 opens 24 hours before departure.",
+    date: "2 days ago",
+    read: true,
+    type: "booking",
+  },
+  {
+    id: "n6",
+    title: "Weekend Flight Deals are live.",
+    description: "Save up to 20% on domestic routes booked for Friday–Sunday travel.",
+    date: "3 days ago",
+    read: true,
+    type: "promo",
+  },
+  {
+    id: "n7",
+    title: "Your Yogyakarta trip is complete.",
+    description: "We hope you enjoyed Borobudur. Save this trip as a guide for next time.",
+    date: "1 week ago",
+    read: true,
+    type: "trip",
+  },
+]
