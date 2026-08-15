@@ -79,10 +79,10 @@ export default function ExplorePage() {
       </section>
 
       <section className="container py-14">
-        <Card className="flex flex-col items-center gap-4 border-none bg-primary-dark p-10 text-center text-primary-foreground">
+        <Card className="flex flex-col items-center gap-4 border-none bg-primary-dark p-10 text-center text-on-dark">
           <Sparkles className="h-8 w-8" />
           <h2 className="text-2xl font-extrabold">Popular Experiences This Month</h2>
-          <p className="max-w-lg text-primary-foreground/85">
+          <p className="max-w-lg text-on-dark/85">
             From sunrise treks to island-hopping tours, see what's trending across every destination.
           </p>
           <Button asChild size="lg" variant="secondary" className="gap-1.5 bg-accent text-accent-foreground hover:bg-accent/90">

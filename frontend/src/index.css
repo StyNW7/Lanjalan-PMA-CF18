@@ -38,6 +38,10 @@
     --input: 214 32% 91%;
     --ring: 201 56% 47%;
     --radius: 1rem;
+
+    /* Fixed-white content for permanently-dark brand surfaces (bg-primary-dark bands),
+       which stay the same navy regardless of theme and must not flip with primary-foreground. */
+    --on-dark: 0 0% 100%;
   }
 
   .dark {
@@ -74,6 +78,8 @@
     --border: 215 20% 20%;
     --input: 215 20% 20%;
     --ring: 201 70% 55%;
+
+    --on-dark: 0 0% 100%;
   }
 }
 

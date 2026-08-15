@@ -29,6 +29,7 @@ import {
   DropdownMenuTrigger,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu"
+import ModeToggle from "@/components/theme-toggle"
 
 const mainNav = [
   { label: "Flights", href: "/flights", icon: Plane },
@@ -109,6 +110,8 @@ export default function Navbar() {
               <Search className="h-4.5 w-4.5" />
             </Link>
           </Button>
+
+          <ModeToggle />
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>

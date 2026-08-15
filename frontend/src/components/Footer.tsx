@@ -86,7 +86,7 @@ export default function Footer() {
 
         <div className="mt-10 flex flex-col items-center justify-between gap-3 border-t border-border pt-6 text-xs text-muted-foreground sm:flex-row">
           <p>© 2026 Lanjalan. All rights reserved.</p>
-          <p>Prototype built for the Product Management Academy business case.</p>
+          <p>Prototype built for the PMA Compfest 18</p>
         </div>
       </div>
     </footer>

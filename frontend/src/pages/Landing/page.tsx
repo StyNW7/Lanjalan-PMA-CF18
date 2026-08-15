@@ -177,16 +177,16 @@ export default function LandingPage() {
       </section>
 
       {/* SECTION 5 — INTRODUCE COMPASS */}
-      <section className="relative overflow-hidden bg-primary-dark py-16 text-primary-foreground sm:py-24">
+      <section className="relative overflow-hidden bg-primary-dark py-16 text-on-dark sm:py-24">
         <div className="pointer-events-none absolute -right-32 top-0 h-96 w-96 rounded-full bg-accent/20 blur-3xl" />
         <div className="container relative">
           <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
             <div>
-              <span className="mb-4 inline-flex items-center gap-1.5 rounded-full bg-background/10 px-3.5 py-1.5 text-xs font-bold">
+              <span className="mb-4 inline-flex items-center gap-1.5 rounded-full bg-on-dark/10 px-3.5 py-1.5 text-xs font-bold">
                 <Compass className="h-3.5 w-3.5" /> Flagship Feature
               </span>
               <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl lg:text-5xl">Meet Lanjalan Compass</h2>
-              <p className="mt-4 max-w-lg text-base text-primary-foreground/85 sm:text-lg">
+              <p className="mt-4 max-w-lg text-base text-on-dark/85 sm:text-lg">
                 Your flight already tells us where and when you're going. Compass helps you figure out what comes
                 next.
               </p>
@@ -205,12 +205,12 @@ export default function LandingPage() {
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.1, duration: 0.4 }}
-                  className="rounded-2xl bg-background/10 p-5 backdrop-blur-sm"
+                  className="rounded-2xl bg-on-dark/10 p-5 backdrop-blur-sm"
                 >
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-background/15">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-on-dark/15">
                     <step.icon className="h-5 w-5" />
                   </div>
-                  <p className="mt-4 text-xs font-semibold text-primary-foreground/60">Step {i + 1}</p>
+                  <p className="mt-4 text-xs font-semibold text-on-dark/60">Step {i + 1}</p>
                   <p className="mt-1 font-bold">{step.label}</p>
                 </motion.div>
               ))}

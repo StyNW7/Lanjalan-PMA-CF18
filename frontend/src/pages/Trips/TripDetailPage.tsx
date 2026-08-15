@@ -50,12 +50,12 @@ export default function TripDetailPage() {
       <div className="mt-4 overflow-hidden rounded-3xl">
         <div className="relative h-56 w-full">
           <img src={mockTrip.destinationImage} alt={mockTrip.destination} className="h-full w-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-t from-foreground/80 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
           <div className="absolute inset-x-0 bottom-0 flex flex-wrap items-end justify-between gap-3 p-6">
             <div>
               <Badge variant="accent" className="mb-2">{mockTrip.status}</Badge>
-              <h1 className="text-3xl font-extrabold text-background">{mockTrip.destination}</h1>
-              <p className="text-sm text-background/85">{mockTrip.dateRange} · {mockTrip.duration}</p>
+              <h1 className="text-3xl font-extrabold text-white">{mockTrip.destination}</h1>
+              <p className="text-sm text-white/85">{mockTrip.dateRange} · {mockTrip.duration}</p>
             </div>
             {isLiveBali && (
               <Button asChild size="lg" className="gap-1.5 bg-accent text-accent-foreground hover:bg-accent/90">

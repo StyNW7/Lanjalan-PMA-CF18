@@ -23,17 +23,17 @@ const benefits = [
 export default function CompassIntroPage() {
   return (
     <div className="flex flex-col">
-      <section className="relative overflow-hidden bg-primary-dark py-16 text-primary-foreground sm:py-24">
+      <section className="relative overflow-hidden bg-primary-dark py-16 text-on-dark sm:py-24">
         <div className="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full bg-accent/20 blur-3xl" />
         <div className="container relative text-center">
-          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-background/10">
+          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-on-dark/10">
             <Compass className="h-8 w-8" />
           </div>
           <h1 className="mx-auto mt-6 max-w-3xl text-3xl font-extrabold tracking-tight sm:text-5xl">
             Your Flight Knows Where You're Going.
             <br /> Compass Helps Plan What Comes Next.
           </h1>
-          <p className="mx-auto mt-5 max-w-xl text-primary-foreground/85">
+          <p className="mx-auto mt-5 max-w-xl text-on-dark/85">
             A structured trip planning experience built around the trip you already booked — not another chatbot.
           </p>
           <Button asChild size="lg" className="mt-8 gap-1.5 bg-accent text-accent-foreground hover:bg-accent/90">

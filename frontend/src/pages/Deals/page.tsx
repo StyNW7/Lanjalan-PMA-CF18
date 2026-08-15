@@ -47,18 +47,18 @@ export default function DealsPage() {
         </div>
       </section>
 
-      <section className="bg-primary-dark py-14 text-primary-foreground">
+      <section className="bg-primary-dark py-14 text-on-dark">
         <div className="container">
           <SectionHeading
             title="Beyond the Flight"
             description="Already booked your flight? Discover stays and activities that fit your journey."
-            className="[&_h2]:text-primary-foreground [&_p]:text-primary-foreground/80"
+            className="[&_h2]:text-on-dark [&_p]:text-on-dark/80"
           />
           <div className="mt-6 flex flex-wrap gap-3">
             <Button asChild size="lg" className="gap-1.5 bg-accent text-accent-foreground hover:bg-accent/90">
               <Link to="/compass">Plan with Compass <ArrowRight className="h-4 w-4" /></Link>
             </Button>
-            <Button asChild size="lg" variant="outline" className="border-background/40 bg-transparent text-primary-foreground hover:bg-background/10">
+            <Button asChild size="lg" variant="outline" className="border-on-dark/40 bg-transparent text-on-dark hover:bg-on-dark/10">
               <Link to="/hotels">Browse Hotels</Link>
             </Button>
           </div>

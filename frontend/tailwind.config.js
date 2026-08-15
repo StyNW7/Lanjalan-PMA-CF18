@@ -65,6 +65,7 @@ module.exports = {
         },
         "primary-dark": "hsl(var(--primary-dark))",
         "primary-light": "hsl(var(--primary-light))",
+        "on-dark": "hsl(var(--on-dark))",
       },
       fontFamily: {
         sans: ["Plus Jakarta Sans", "Inter", "system-ui", "sans-serif"],

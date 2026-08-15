@@ -213,10 +213,10 @@ export default function DestinationDetailPage() {
       </section>
 
       <section className="container pb-14">
-        <Card className="flex flex-col items-center gap-3 border-none bg-primary-dark p-10 text-center text-primary-foreground">
+        <Card className="flex flex-col items-center gap-3 border-none bg-primary-dark p-10 text-center text-on-dark">
           <Sparkles className="h-7 w-7" />
           <h2 className="text-xl font-extrabold sm:text-2xl">Ready to book {destination.name}?</h2>
-          <p className="max-w-md text-primary-foreground/85">
+          <p className="max-w-md text-on-dark/85">
             Start with a flight, and Compass will help plan everything that comes after.
           </p>
           <Button asChild size="lg" className="gap-1.5 bg-accent text-accent-foreground hover:bg-accent/90">

@@ -104,17 +104,17 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="bg-primary-dark py-16 text-primary-foreground sm:py-20">
+      <section className="bg-primary-dark py-16 text-on-dark sm:py-20">
         <div className="container">
-          <SectionHeading title="The Journey We Design For" align="center" className="mx-auto text-primary-foreground [&>h2]:text-primary-foreground" />
+          <SectionHeading title="The Journey We Design For" align="center" className="mx-auto text-on-dark [&>h2]:text-on-dark" />
           <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center sm:gap-2">
             {journey.map((step, i) => (
               <div key={step.label} className="flex items-center gap-2">
-                <div className="flex flex-col items-center gap-2 rounded-2xl bg-background/10 px-6 py-5">
+                <div className="flex flex-col items-center gap-2 rounded-2xl bg-on-dark/10 px-6 py-5">
                   <step.icon className="h-6 w-6" />
                   <span className="text-sm font-bold">{step.label}</span>
                 </div>
-                {i < journey.length - 1 && <span className="hidden text-primary-foreground/40 sm:block">—</span>}
+                {i < journey.length - 1 && <span className="hidden text-on-dark/40 sm:block">—</span>}
               </div>
             ))}
           </div>
