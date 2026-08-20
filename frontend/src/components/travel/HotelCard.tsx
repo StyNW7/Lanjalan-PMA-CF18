@@ -48,10 +48,10 @@ export function HotelCard({
       </div>
       <div className="p-5">
         <div className="flex items-start justify-between gap-2">
-          <div>
-            <h3 className="font-bold leading-tight text-foreground">{hotel.name}</h3>
+          <div className="min-w-0">
+            <h3 className="line-clamp-1 font-bold leading-tight text-foreground">{hotel.name}</h3>
             <p className="mt-0.5 flex items-center gap-1 text-xs text-muted-foreground">
-              <MapPin className="h-3 w-3" /> {hotel.neighborhood}, {hotel.city}
+              <MapPin className="h-3 w-3 shrink-0" /> <span className="truncate">{hotel.neighborhood}, {hotel.city}</span>
             </p>
           </div>
           <StarRating rating={hotel.rating} reviewCount={hotel.reviewCount} className="shrink-0" />

@@ -6,6 +6,7 @@ import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { PromoCard } from "@/components/travel/PromoCard"
 import { getPromotionsByCategory } from "@/data/promotions"
+import { FadeInGrid, FadeInItem } from "@/components/ui/fade-in"
 
 const tabs = ["All", "Flights", "Hotels", "Activities", "Bundles"] as const
 
@@ -42,9 +43,9 @@ export default function DealsPage() {
           ))}
         </div>
 
-        <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {promos.map((promo) => <PromoCard key={promo.id} promo={promo} />)}
-        </div>
+        <FadeInGrid className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {promos.map((promo) => <FadeInItem key={promo.id}><PromoCard promo={promo} /></FadeInItem>)}
+        </FadeInGrid>
       </section>
 
       <section className="bg-primary-dark py-14 text-on-dark">

@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"
 import { FlightCard } from "@/components/travel/FlightCard"
 import { EmptyState } from "@/components/ui/empty-state"
+import { FadeInGrid, FadeInItem } from "@/components/ui/fade-in"
 import { flights as allFlights, searchFlights } from "@/data/flights"
 
 type SortKey = "recommended" | "cheapest" | "fastest" | "earliest"
@@ -122,15 +123,17 @@ export default function FlightResultsPage() {
           </div>
         </Card>
 
-        <div className="space-y-4 lg:col-span-3">
+        <FadeInGrid className="space-y-4 lg:col-span-3">
           {filtered.length === 0 ? (
             <EmptyState icon={PlaneTakeoff} title="No flights match your filters" description="Try adjusting your filters to see more results." />
           ) : (
             filtered.map((flight) => (
-              <FlightCard key={flight.id} flight={flight} onSelect={() => handleSelect(flight.id)} />
+              <FadeInItem key={flight.id}>
+                <FlightCard flight={flight} onSelect={() => handleSelect(flight.id)} />
+              </FadeInItem>
             ))
           )}
-        </div>
+        </FadeInGrid>
       </div>
 
       {airlines.length > 0 && (

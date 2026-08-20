@@ -41,7 +41,7 @@ export function ActivityCard({
       </div>
       <div className="p-5">
         <div className="flex items-start justify-between gap-2">
-          <h3 className="font-bold leading-tight text-foreground">{activity.title}</h3>
+          <h3 className="line-clamp-2 min-w-0 font-bold leading-tight text-foreground">{activity.title}</h3>
           <StarRating rating={activity.rating} className="shrink-0" />
         </div>
         <p className="mt-1 flex items-center gap-1 text-xs text-muted-foreground">

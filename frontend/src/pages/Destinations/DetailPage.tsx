@@ -19,6 +19,7 @@ import { EmptyState } from "@/components/ui/empty-state"
 import { HotelCard } from "@/components/travel/HotelCard"
 import { ActivityCard } from "@/components/travel/ActivityCard"
 import { DestinationCard } from "@/components/travel/DestinationCard"
+import { FadeIn, FadeInGrid, FadeInItem } from "@/components/ui/fade-in"
 import { formatIDR } from "@/lib/format"
 import { destinations, getDestinationById } from "@/data/destinations"
 import { getHotelsByCity } from "@/data/hotels"
@@ -163,16 +164,17 @@ export default function DestinationDetailPage() {
             className="mt-6"
           />
         ) : (
-          <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <FadeInGrid className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {hotels.slice(0, 3).map((hotel) => (
-              <HotelCard
-                key={hotel.id}
-                hotel={hotel}
-                saved={wishlist.hotels.includes(hotel.id)}
-                onToggleSave={() => toggleWishlistItem("hotels", hotel.id)}
-              />
+              <FadeInItem key={hotel.id}>
+                <HotelCard
+                  hotel={hotel}
+                  saved={wishlist.hotels.includes(hotel.id)}
+                  onToggleSave={() => toggleWishlistItem("hotels", hotel.id)}
+                />
+              </FadeInItem>
             ))}
-          </div>
+          </FadeInGrid>
         )}
       </section>
 
@@ -190,16 +192,17 @@ export default function DestinationDetailPage() {
               className="mt-6"
             />
           ) : (
-            <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            <FadeInGrid className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {activities.slice(0, 3).map((activity) => (
-                <ActivityCard
-                  key={activity.id}
-                  activity={activity}
-                  saved={wishlist.activities.includes(activity.id)}
-                  onToggleSave={() => toggleWishlistItem("activities", activity.id)}
-                />
+                <FadeInItem key={activity.id}>
+                  <ActivityCard
+                    activity={activity}
+                    saved={wishlist.activities.includes(activity.id)}
+                    onToggleSave={() => toggleWishlistItem("activities", activity.id)}
+                  />
+                </FadeInItem>
               ))}
-            </div>
+            </FadeInGrid>
           )}
         </div>
       </section>
@@ -207,22 +210,24 @@ export default function DestinationDetailPage() {
       {/* Related destinations */}
       <section className="container py-14">
         <SectionHeading eyebrow="Keep Exploring" title="You Might Also Like" />
-        <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {related.map((d) => <DestinationCard key={d.id} destination={d} />)}
-        </div>
+        <FadeInGrid className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {related.map((d) => <FadeInItem key={d.id}><DestinationCard destination={d} /></FadeInItem>)}
+        </FadeInGrid>
       </section>
 
       <section className="container pb-14">
-        <Card className="flex flex-col items-center gap-3 border-none bg-primary-dark p-10 text-center text-on-dark">
-          <Sparkles className="h-7 w-7" />
-          <h2 className="text-xl font-extrabold sm:text-2xl">Ready to book {destination.name}?</h2>
-          <p className="max-w-md text-on-dark/85">
-            Start with a flight, and Compass will help plan everything that comes after.
-          </p>
-          <Button asChild size="lg" className="gap-1.5 bg-accent text-accent-foreground hover:bg-accent/90">
-            <Link to={flightSearchHref}>Search Flights <ArrowRight className="h-4 w-4" /></Link>
-          </Button>
-        </Card>
+        <FadeIn>
+          <Card className="flex flex-col items-center gap-3 border-none bg-primary-dark p-10 text-center text-on-dark">
+            <Sparkles className="h-7 w-7" />
+            <h2 className="text-xl font-extrabold sm:text-2xl">Ready to book {destination.name}?</h2>
+            <p className="max-w-md text-on-dark/85">
+              Start with a flight, and Compass will help plan everything that comes after.
+            </p>
+            <Button asChild size="lg" className="gap-1.5 bg-accent text-accent-foreground hover:bg-accent/90">
+              <Link to={flightSearchHref}>Search Flights <ArrowRight className="h-4 w-4" /></Link>
+            </Button>
+          </Card>
+        </FadeIn>
       </section>
     </div>
   )

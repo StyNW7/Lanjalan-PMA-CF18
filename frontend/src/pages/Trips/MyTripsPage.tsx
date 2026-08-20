@@ -3,6 +3,7 @@ import { Briefcase, Plus } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { EmptyState } from "@/components/ui/empty-state"
 import { TripCard } from "@/components/travel/TripCard"
+import { FadeInGrid, FadeInItem } from "@/components/ui/fade-in"
 import { trips as mockTrips } from "@/data/trips"
 import { useAppState } from "@/context/app-state"
 import { Link } from "react-router-dom"
@@ -51,9 +52,9 @@ export default function MyTripsPage() {
           className="mt-10"
         />
       ) : (
-        <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {trips.map((t) => <TripCard key={t.id} trip={t} />)}
-        </div>
+        <FadeInGrid className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {trips.map((t) => <FadeInItem key={t.id}><TripCard trip={t} /></FadeInItem>)}
+        </FadeInGrid>
       )}
     </div>
   )

@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label"
 import { Badge } from "@/components/ui/badge"
 import { HotelCard } from "@/components/travel/HotelCard"
 import { EmptyState } from "@/components/ui/empty-state"
+import { FadeInGrid, FadeInItem } from "@/components/ui/fade-in"
 import { hotels } from "@/data/hotels"
 import { useAppState } from "@/context/app-state"
 
@@ -110,23 +111,24 @@ export default function HotelResultsPage() {
           </div>
         </Card>
 
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:col-span-3 lg:grid-cols-3">
+        <FadeInGrid className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:col-span-3 lg:grid-cols-3">
           {filtered.length === 0 ? (
             <div className="sm:col-span-2 lg:col-span-3">
               <EmptyState icon={HotelIcon} title="No hotels match your filters" description="Try adjusting your filters to see more results." />
             </div>
           ) : (
             filtered.map((hotel) => (
-              <HotelCard
-                key={hotel.id}
-                hotel={hotel}
-                showMatch={hasCompassContext}
-                saved={wishlist.hotels.includes(hotel.id)}
-                onToggleSave={() => toggleWishlistItem("hotels", hotel.id)}
-              />
+              <FadeInItem key={hotel.id}>
+                <HotelCard
+                  hotel={hotel}
+                  showMatch={hasCompassContext}
+                  saved={wishlist.hotels.includes(hotel.id)}
+                  onToggleSave={() => toggleWishlistItem("hotels", hotel.id)}
+                />
+              </FadeInItem>
             ))
           )}
-        </div>
+        </FadeInGrid>
       </div>
     </div>
   )

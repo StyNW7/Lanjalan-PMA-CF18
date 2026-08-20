@@ -4,6 +4,7 @@ import { SectionHeading } from "@/components/ui/section-heading"
 import { HotelCard } from "@/components/travel/HotelCard"
 import { ActivityCard } from "@/components/travel/ActivityCard"
 import { DestinationCard } from "@/components/travel/DestinationCard"
+import { FadeInGrid, FadeInItem } from "@/components/ui/fade-in"
 import { hotels } from "@/data/hotels"
 import { activities } from "@/data/activities"
 import { destinations } from "@/data/destinations"
@@ -37,31 +38,37 @@ export default function SavedPage() {
           {savedHotels.length > 0 && (
             <div>
               <SectionHeading title="Saved Stays" />
-              <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              <FadeInGrid className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
                 {savedHotels.map((h) => (
-                  <HotelCard key={h.id} hotel={h} saved onToggleSave={() => toggleWishlistItem("hotels", h.id)} />
+                  <FadeInItem key={h.id}>
+                    <HotelCard hotel={h} saved onToggleSave={() => toggleWishlistItem("hotels", h.id)} />
+                  </FadeInItem>
                 ))}
-              </div>
+              </FadeInGrid>
             </div>
           )}
           {savedActivities.length > 0 && (
             <div>
               <SectionHeading title="Saved Activities" />
-              <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              <FadeInGrid className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
                 {savedActivities.map((a) => (
-                  <ActivityCard key={a.id} activity={a} saved onToggleSave={() => toggleWishlistItem("activities", a.id)} />
+                  <FadeInItem key={a.id}>
+                    <ActivityCard activity={a} saved onToggleSave={() => toggleWishlistItem("activities", a.id)} />
+                  </FadeInItem>
                 ))}
-              </div>
+              </FadeInGrid>
             </div>
           )}
           {savedDestinations.length > 0 && (
             <div>
               <SectionHeading title="Saved Destinations" />
-              <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              <FadeInGrid className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
                 {savedDestinations.map((d) => (
-                  <DestinationCard key={d.id} destination={d} />
+                  <FadeInItem key={d.id}>
+                    <DestinationCard destination={d} />
+                  </FadeInItem>
                 ))}
-              </div>
+              </FadeInGrid>
             </div>
           )}
         </div>

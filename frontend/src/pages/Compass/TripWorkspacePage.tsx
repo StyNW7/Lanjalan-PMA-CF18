@@ -10,6 +10,7 @@ import { TripStatus } from "@/components/travel/TripStatus"
 import { ItineraryItemCard } from "@/components/travel/ItineraryItemCard"
 import { BudgetChart } from "@/components/travel/BudgetChart"
 import { RecommendationCard } from "@/components/travel/RecommendationCard"
+import { FadeInGrid, FadeInItem } from "@/components/ui/fade-in"
 import { useAppState } from "@/context/app-state"
 import { defaultBaliItinerary, tripBudgetBreakdown, claraPersona } from "@/data/compass"
 import { getHotelById } from "@/data/hotels"
@@ -126,17 +127,18 @@ export default function CompassTripWorkspacePage() {
               <RefreshCw className="h-3.5 w-3.5" /> Regenerate Day
             </Button>
           </div>
-          <div className="space-y-4">
+          <FadeInGrid key={activeDay} className="space-y-4">
             {currentDay.items.map((item) => (
-              <ItineraryItemCard
-                key={item.id}
-                item={item}
-                onLockToggle={() => handleToggleLock(item.id)}
-                onRemove={() => handleRemove(item.id)}
-                onSwap={() => handleSwap(item.id)}
-              />
+              <FadeInItem key={item.id}>
+                <ItineraryItemCard
+                  item={item}
+                  onLockToggle={() => handleToggleLock(item.id)}
+                  onRemove={() => handleRemove(item.id)}
+                  onSwap={() => handleSwap(item.id)}
+                />
+              </FadeInItem>
             ))}
-          </div>
+          </FadeInGrid>
           <Button
             variant="ghost"
             className="mt-4 w-full gap-1.5 border border-dashed border-border"
@@ -161,37 +163,43 @@ export default function CompassTripWorkspacePage() {
 
           <div>
             <p className="mb-3 flex items-center gap-1.5 text-sm font-bold text-foreground"><Sparkles className="h-4 w-4 text-accent" /> Recommended For This Trip</p>
-            <div className="space-y-3">
+            <FadeInGrid className="space-y-3">
               {recommendedHotel && !hotelBooked && (
-                <RecommendationCard
-                  image={recommendedHotel.image}
-                  title={recommendedHotel.name}
-                  subtitle={`${recommendedHotel.neighborhood}, ${recommendedHotel.city}`}
-                  matchLabel={`${recommendedHotel.tripMatch}% Trip Match`}
-                  reasons={recommendedHotel.matchReasons || []}
-                  price={recommendedHotel.pricePerNight}
-                  onAction={() => navigate(`/hotels/${recommendedHotel.id}`)}
-                />
+                <FadeInItem>
+                  <RecommendationCard
+                    image={recommendedHotel.image}
+                    title={recommendedHotel.name}
+                    subtitle={`${recommendedHotel.neighborhood}, ${recommendedHotel.city}`}
+                    matchLabel={`${recommendedHotel.tripMatch}% Trip Match`}
+                    reasons={recommendedHotel.matchReasons || []}
+                    price={recommendedHotel.pricePerNight}
+                    onAction={() => navigate(`/hotels/${recommendedHotel.id}`)}
+                  />
+                </FadeInItem>
               )}
               {hotelBooked && (
-                <Card className="border-success/30 bg-success/5 p-4 text-sm font-medium text-success">
-                  {trip.hotel.hotelName} is booked for this trip.
-                </Card>
+                <FadeInItem>
+                  <Card className="border-success/30 bg-success/5 p-4 text-sm font-medium text-success">
+                    {trip.hotel.hotelName} is booked for this trip.
+                  </Card>
+                </FadeInItem>
               )}
               {recommendedActivity && (
-                <RecommendationCard
-                  image={recommendedActivity.image}
-                  title={recommendedActivity.title}
-                  subtitle={recommendedActivity.location}
-                  matchLabel="Recommended for Day 2"
-                  reasons={[recommendedActivity.compassReason || "Fits your interests"]}
-                  price={recommendedActivity.price}
-                  priceLabel="per person"
-                  ctaLabel="View Activity"
-                  onAction={() => navigate(`/activities/${recommendedActivity.id}`)}
-                />
+                <FadeInItem>
+                  <RecommendationCard
+                    image={recommendedActivity.image}
+                    title={recommendedActivity.title}
+                    subtitle={recommendedActivity.location}
+                    matchLabel="Recommended for Day 2"
+                    reasons={[recommendedActivity.compassReason || "Fits your interests"]}
+                    price={recommendedActivity.price}
+                    priceLabel="per person"
+                    ctaLabel="View Activity"
+                    onAction={() => navigate(`/activities/${recommendedActivity.id}`)}
+                  />
+                </FadeInItem>
               )}
-            </div>
+            </FadeInGrid>
           </div>
 
           <Badge variant="muted" className="w-full justify-center py-2 text-center text-xs">

@@ -7,6 +7,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Label } from "@/components/ui/label"
 import { ActivityCard } from "@/components/travel/ActivityCard"
 import { EmptyState } from "@/components/ui/empty-state"
+import { FadeInGrid, FadeInItem } from "@/components/ui/fade-in"
 import { activities } from "@/data/activities"
 import { useAppState } from "@/context/app-state"
 import type { ActivityCategory } from "@/data/types"
@@ -63,22 +64,23 @@ export default function ActivityResultsPage() {
           </div>
         </Card>
 
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:col-span-3 lg:grid-cols-3">
+        <FadeInGrid className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:col-span-3 lg:grid-cols-3">
           {filtered.length === 0 ? (
             <div className="sm:col-span-2 lg:col-span-3">
               <EmptyState icon={Ticket} title="No activities match your filters" description="Try selecting a different category or budget." />
             </div>
           ) : (
             filtered.map((activity) => (
-              <ActivityCard
-                key={activity.id}
-                activity={activity}
-                saved={wishlist.activities.includes(activity.id)}
-                onToggleSave={() => toggleWishlistItem("activities", activity.id)}
-              />
+              <FadeInItem key={activity.id}>
+                <ActivityCard
+                  activity={activity}
+                  saved={wishlist.activities.includes(activity.id)}
+                  onToggleSave={() => toggleWishlistItem("activities", activity.id)}
+                />
+              </FadeInItem>
             ))
           )}
-        </div>
+        </FadeInGrid>
       </div>
     </div>
   )

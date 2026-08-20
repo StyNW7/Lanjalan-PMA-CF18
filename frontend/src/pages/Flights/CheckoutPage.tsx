@@ -62,14 +62,14 @@ export default function FlightCheckoutPage() {
         <div className="space-y-6 lg:col-span-2">
           <Card className="p-6">
             <h2 className="flex items-center gap-2 font-bold text-foreground"><Plane className="h-4 w-4 text-primary" /> Flight Summary</h2>
-            <div className="mt-4 flex items-center justify-between">
-              <div>
+            <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
+              <div className="min-w-0">
                 <p className="font-semibold text-foreground">{flight.airline} · {flight.flightNumber}</p>
                 <p className="text-sm text-muted-foreground">
                   {flight.origin.city} ({flight.origin.code}) {flight.departTime} → {flight.destination.city} ({flight.destination.code}) {flight.arriveTime}
                 </p>
               </div>
-              <Badge variant="secondary">{flight.cabin}</Badge>
+              <Badge variant="secondary" className="shrink-0">{flight.cabin}</Badge>
             </div>
           </Card>
 
