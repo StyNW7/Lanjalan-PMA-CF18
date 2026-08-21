@@ -225,15 +225,6 @@ Full details in [`data-analysis/README.md`](data-analysis/README.md).
 
 ---
 
-## 👤 Author
-
-**Stanley Nathanael Wijaya** — research, analysis, and prototype
-· [GitHub](https://github.com/StyNW7)
-
-Built for the **COMPFEST 18 Product Management Academy** business case.
-
----
-
 ## 📄 License & Usage
 
 This repository has no license file yet, so default copyright applies — all rights reserved by the author.
