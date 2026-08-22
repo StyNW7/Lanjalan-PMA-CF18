@@ -54,20 +54,30 @@ export default function NotificationsPage() {
               return (
                 <Card
                   key={n.id}
-                  onClick={() => markNotificationRead(n.id)}
-                  className={cn("flex cursor-pointer items-start gap-4 p-5 transition-colors hover:border-primary/30", !n.read && "border-primary/30 bg-primary-light/30")}
+                  asChild
+                  className={cn(
+                    "transition-colors hover:border-primary/30",
+                    !n.read && "border-primary/30 bg-primary-light/30"
+                  )}
                 >
-                  <div className={cn("flex h-10 w-10 shrink-0 items-center justify-center rounded-full", n.read ? "bg-muted" : "bg-primary-light")}>
-                    <Icon className={cn("h-4.5 w-4.5", n.read ? "text-muted-foreground" : "text-primary")} />
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-center justify-between gap-2">
-                      <p className="font-semibold text-foreground">{n.title}</p>
-                      {!n.read && <span className="h-2 w-2 shrink-0 rounded-full bg-accent" />}
+                  <button
+                    type="button"
+                    onClick={() => markNotificationRead(n.id)}
+                    aria-label={n.read ? n.title : `${n.title} (unread)`}
+                    className="flex w-full items-start gap-4 p-5 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                  >
+                    <div className={cn("flex h-10 w-10 shrink-0 items-center justify-center rounded-full", n.read ? "bg-muted" : "bg-primary-light")}>
+                      <Icon className={cn("h-5 w-5", n.read ? "text-muted-foreground" : "text-primary")} />
                     </div>
-                    <p className="mt-1 text-sm text-muted-foreground">{n.description}</p>
-                    <p className="mt-1.5 text-xs text-muted-foreground">{n.date}</p>
-                  </div>
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center justify-between gap-2">
+                        <p className="font-semibold text-foreground">{n.title}</p>
+                        {!n.read && <span className="h-2 w-2 shrink-0 rounded-full bg-accent" />}
+                      </div>
+                      <p className="mt-1 text-sm text-muted-foreground">{n.description}</p>
+                      <p className="mt-1.5 text-xs text-muted-foreground">{n.date}</p>
+                    </div>
+                  </button>
                 </Card>
               )
             })

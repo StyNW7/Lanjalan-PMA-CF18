@@ -5,7 +5,8 @@ import { SectionHeading } from "@/components/ui/section-heading"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { PromoCard } from "@/components/travel/PromoCard"
-import { getPromotionsByCategory } from "@/data/promotions"
+import { EmptyState } from "@/components/ui/empty-state"
+import { promotions, getPromotionsByCategory } from "@/data/promotions"
 import { FadeInGrid, FadeInItem } from "@/components/ui/fade-in"
 
 const tabs = ["All", "Flights", "Hotels", "Activities", "Bundles"] as const
@@ -29,23 +30,59 @@ export default function DealsPage() {
       </section>
 
       <section className="container py-10">
-        <div className="flex flex-wrap justify-center gap-2">
-          {tabs.map((tab) => (
-            <button
-              key={tab}
-              onClick={() => setActive(tab)}
-              className={`rounded-full border px-4 py-2 text-sm font-semibold transition-colors ${
-                active === tab ? "border-primary bg-primary-light text-primary-dark" : "border-border text-muted-foreground hover:border-primary/40"
-              }`}
-            >
-              {tab}
-            </button>
-          ))}
+        <div className="flex flex-wrap justify-center gap-2" role="tablist" aria-label="Filter deals by category">
+          {tabs.map((tab) => {
+            const count = getPromotionsByCategory(tab).length
+            const selected = active === tab
+            return (
+              <button
+                key={tab}
+                type="button"
+                role="tab"
+                aria-selected={selected}
+                onClick={() => setActive(tab)}
+                className={`flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold transition-colors ${
+                  selected
+                    ? "border-primary bg-primary-light text-primary-dark"
+                    : "border-border text-muted-foreground hover:border-primary/40 hover:text-foreground"
+                }`}
+              >
+                {tab}
+                <span
+                  className={`rounded-full px-1.5 text-xs font-bold ${
+                    selected ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"
+                  }`}
+                >
+                  {count}
+                </span>
+              </button>
+            )
+          })}
         </div>
 
-        <FadeInGrid className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {promos.map((promo) => <FadeInItem key={promo.id}><PromoCard promo={promo} /></FadeInItem>)}
-        </FadeInGrid>
+        <p className="mt-4 text-center text-sm text-muted-foreground">
+          {promos.length} {promos.length === 1 ? "offer" : "offers"} available
+          {active !== "All" && ` in ${active}`}
+        </p>
+
+        {promos.length === 0 ? (
+          <EmptyState
+            icon={Percent}
+            title="No deals in this category right now"
+            description="Check back soon, or browse every active offer."
+            actionLabel="Show All Deals"
+            onAction={() => setActive("All")}
+            className="mt-8"
+          />
+        ) : (
+          <FadeInGrid className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {promos.map((promo, i) => (
+              <FadeInItem key={promo.id} index={i}>
+                <PromoCard promo={promo} />
+              </FadeInItem>
+            ))}
+          </FadeInGrid>
+        )}
       </section>
 
       <section className="bg-primary-dark py-14 text-on-dark">
@@ -73,7 +110,7 @@ export default function DealsPage() {
             <p className="mt-1 text-sm text-muted-foreground">Average savings on bundled bookings</p>
           </div>
           <div>
-            <p className="text-3xl font-extrabold text-primary">8</p>
+            <p className="text-3xl font-extrabold text-primary">{promotions.length}</p>
             <p className="mt-1 text-sm text-muted-foreground">Active promotions across the platform</p>
           </div>
           <div>

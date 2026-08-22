@@ -5,10 +5,17 @@ import { Switch } from "@/components/ui/switch"
 import { Button } from "@/components/ui/button"
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"
 import { useTheme } from "@/components/theme-provider"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import toast from "react-hot-toast"
 
 export default function SettingsPage() {
   const { theme, setTheme } = useTheme()
+  const navigate = useNavigate()
+
+  function handleSignOut() {
+    toast.success("Signed out. Your saved trips stay on this device.")
+    navigate("/")
+  }
 
   return (
     <div className="container max-w-2xl py-10">
@@ -86,7 +93,9 @@ export default function SettingsPage() {
         <Card className="border-destructive/30 p-6">
           <h2 className="flex items-center gap-2 font-bold text-destructive"><LogOut className="h-4 w-4" /> Sign Out</h2>
           <p className="mt-1 text-sm text-muted-foreground">You'll need to sign in again to access your trips.</p>
-          <Button variant="destructive" size="sm" className="mt-3">Sign Out</Button>
+          <Button variant="destructive" size="sm" className="mt-3 gap-1.5" onClick={handleSignOut}>
+            <LogOut className="h-3.5 w-3.5" /> Sign Out
+          </Button>
         </Card>
       </div>
     </div>

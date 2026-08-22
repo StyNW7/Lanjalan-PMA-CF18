@@ -6,10 +6,11 @@ import { TripCard } from "@/components/travel/TripCard"
 import { FadeInGrid, FadeInItem } from "@/components/ui/fade-in"
 import { trips as mockTrips } from "@/data/trips"
 import { useAppState } from "@/context/app-state"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 export default function MyTripsPage() {
   const { trip } = useAppState()
+  const navigate = useNavigate()
 
   const trips = useMemo(() => {
     return mockTrips.map((t) => {
@@ -48,12 +49,12 @@ export default function MyTripsPage() {
           title="No trips yet"
           description="Book a flight to start planning your first trip with Lanjalan."
           actionLabel="Search Flights"
-          onAction={() => {}}
+          onAction={() => navigate("/flights")}
           className="mt-10"
         />
       ) : (
         <FadeInGrid className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {trips.map((t) => <FadeInItem key={t.id}><TripCard trip={t} /></FadeInItem>)}
+          {trips.map((t, i) => <FadeInItem key={t.id} index={i}><TripCard trip={t} /></FadeInItem>)}
         </FadeInGrid>
       )}
     </div>

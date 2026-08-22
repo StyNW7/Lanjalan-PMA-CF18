@@ -6,10 +6,12 @@ import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { StarRating } from "@/components/travel/StarRating"
+import { PromoCodeInput } from "@/components/travel/PromoCodeInput"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog"
 import { formatIDR } from "@/lib/format"
 import { getHotelById } from "@/data/hotels"
 import { useAppState } from "@/context/app-state"
+import type { PromoApplication } from "@/data/promotions"
 import { cn } from "@/lib/utils"
 
 const amenityIcons: Record<string, typeof Wifi> = {
@@ -27,6 +29,7 @@ export default function HotelDetailPage() {
   const { wishlist, toggleWishlistItem, bookHotel, trip } = useAppState()
   const [confirmOpen, setConfirmOpen] = useState(false)
   const [nights] = useState(3)
+  const [promo, setPromo] = useState<PromoApplication | null>(null)
 
   if (!hotel) {
     return (
@@ -39,6 +42,10 @@ export default function HotelDetailPage() {
 
   const saved = wishlist.hotels.includes(hotel.id)
   const total = hotel.pricePerNight * nights
+  const taxes = Math.round(total * 0.1)
+  const subtotal = total + taxes
+  const discount = promo ? Math.min(promo.discount, subtotal) : 0
+  const grandTotal = subtotal - discount
   const hasCompassContext = trip.compass.generated
 
   function handleBook() {
@@ -131,12 +138,27 @@ export default function HotelDetailPage() {
           <div className="my-4 h-px bg-border" />
           <div className="space-y-2 text-sm">
             <div className="flex justify-between"><span className="text-muted-foreground">{formatIDR(hotel.pricePerNight)} x {nights} nights</span><span className="text-foreground">{formatIDR(total)}</span></div>
-            <div className="flex justify-between"><span className="text-muted-foreground">Taxes & fees</span><span className="text-foreground">{formatIDR(Math.round(total * 0.1))}</span></div>
+            <div className="flex justify-between"><span className="text-muted-foreground">Taxes &amp; fees</span><span className="text-foreground">{formatIDR(taxes)}</span></div>
+            {promo && (
+              <div className="flex justify-between font-semibold text-success">
+                <span>Promo ({promo.promo.code})</span>
+                <span>-{formatIDR(discount)}</span>
+              </div>
+            )}
+          </div>
+          <div className="my-4">
+            <PromoCodeInput
+              subtotal={subtotal}
+              product="Hotels"
+              applied={promo}
+              onApply={setPromo}
+              onRemove={() => setPromo(null)}
+            />
           </div>
           <div className="my-4 h-px bg-border" />
           <div className="flex justify-between text-base font-extrabold text-foreground">
             <span>Total</span>
-            <span>{formatIDR(total + Math.round(total * 0.1))}</span>
+            <span>{formatIDR(grandTotal)}</span>
           </div>
           <Button size="lg" className="mt-6 w-full" onClick={handleBook}>Book This Hotel</Button>
         </Card>

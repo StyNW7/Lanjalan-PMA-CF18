@@ -1,4 +1,6 @@
+import { useState } from "react"
 import { Link } from "react-router-dom"
+import toast from "react-hot-toast"
 import {
   User,
   Sliders,
@@ -19,8 +21,29 @@ import { useAppState } from "@/context/app-state"
 import { claraPersona } from "@/data/compass"
 import { transactions } from "@/data/transactions"
 
+const paymentMethods = [
+  { id: "visa", label: "Visa •••• 4821" },
+  { id: "gopay", label: "GoPay Wallet" },
+]
+
 export default function ProfilePage() {
   const { onboarding, personalizationEnabled } = useAppState()
+  const [details, setDetails] = useState({
+    fullName: "Clara Amelia",
+    email: "clara@example.com",
+    phone: "+62 812 3456 7890",
+    city: "Jakarta",
+  })
+  const [defaultPayment, setDefaultPayment] = useState("visa")
+
+  function updateDetail(key: keyof typeof details, value: string) {
+    setDetails((prev) => ({ ...prev, [key]: value }))
+  }
+
+  function handleSaveDetails(e: React.FormEvent) {
+    e.preventDefault()
+    toast.success("Personal details saved.")
+  }
 
   return (
     <div className="container max-w-4xl py-10">
@@ -35,25 +58,27 @@ export default function ProfilePage() {
       <div className="mt-8 space-y-6">
         <Card className="p-6">
           <h2 className="flex items-center gap-2 font-bold text-foreground"><User className="h-4 w-4 text-primary" /> Personal Details</h2>
-          <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <div>
-              <Label htmlFor="fullName">Full Name</Label>
-              <Input id="fullName" defaultValue="Clara Amelia" className="mt-1.5" />
+          <form onSubmit={handleSaveDetails}>
+            <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <div>
+                <Label htmlFor="fullName">Full Name</Label>
+                <Input id="fullName" value={details.fullName} onChange={(e) => updateDetail("fullName", e.target.value)} className="mt-1.5" />
+              </div>
+              <div>
+                <Label htmlFor="pemail">Email</Label>
+                <Input id="pemail" type="email" value={details.email} onChange={(e) => updateDetail("email", e.target.value)} className="mt-1.5" />
+              </div>
+              <div>
+                <Label htmlFor="pphone">Phone Number</Label>
+                <Input id="pphone" value={details.phone} onChange={(e) => updateDetail("phone", e.target.value)} className="mt-1.5" />
+              </div>
+              <div>
+                <Label htmlFor="pcity">Home City</Label>
+                <Input id="pcity" value={details.city} onChange={(e) => updateDetail("city", e.target.value)} className="mt-1.5" />
+              </div>
             </div>
-            <div>
-              <Label htmlFor="pemail">Email</Label>
-              <Input id="pemail" defaultValue="clara@example.com" className="mt-1.5" />
-            </div>
-            <div>
-              <Label htmlFor="pphone">Phone Number</Label>
-              <Input id="pphone" defaultValue="+62 812 3456 7890" className="mt-1.5" />
-            </div>
-            <div>
-              <Label htmlFor="pcity">Home City</Label>
-              <Input id="pcity" defaultValue="Jakarta" className="mt-1.5" />
-            </div>
-          </div>
-          <Button className="mt-5">Save Changes</Button>
+            <Button type="submit" className="mt-5">Save Changes</Button>
+          </form>
         </Card>
 
         <Card className="p-6">
@@ -77,7 +102,14 @@ export default function ProfilePage() {
             {["Clara Amelia (You)", "Rian Pratama"].map((name) => (
               <div key={name} className="flex items-center justify-between rounded-xl border border-border px-4 py-3 text-sm">
                 <span className="text-foreground">{name}</span>
-                <Button variant="ghost" size="sm">Edit</Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="shrink-0"
+                  onClick={() => toast.success(`Traveler details for ${name} are ready to edit.`)}
+                >
+                  Edit
+                </Button>
               </div>
             ))}
           </div>
@@ -86,14 +118,26 @@ export default function ProfilePage() {
         <Card className="p-6">
           <h2 className="flex items-center gap-2 font-bold text-foreground"><CreditCard className="h-4 w-4 text-primary" /> Payment Methods</h2>
           <div className="mt-4 space-y-2">
-            <div className="flex items-center justify-between rounded-xl border border-border px-4 py-3 text-sm">
-              <span className="text-foreground">Visa •••• 4821</span>
-              <Badge variant="success">Default</Badge>
-            </div>
-            <div className="flex items-center justify-between rounded-xl border border-border px-4 py-3 text-sm">
-              <span className="text-foreground">GoPay Wallet</span>
-              <Button variant="ghost" size="sm">Set as Default</Button>
-            </div>
+            {paymentMethods.map((method) => (
+              <div key={method.id} className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-border px-4 py-3 text-sm">
+                <span className="text-foreground">{method.label}</span>
+                {defaultPayment === method.id ? (
+                  <Badge variant="success">Default</Badge>
+                ) : (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="shrink-0"
+                    onClick={() => {
+                      setDefaultPayment(method.id)
+                      toast.success(`${method.label} is now your default payment method.`)
+                    }}
+                  >
+                    Set as Default
+                  </Button>
+                )}
+              </div>
+            ))}
           </div>
         </Card>
 

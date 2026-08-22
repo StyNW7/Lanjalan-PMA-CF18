@@ -39,8 +39,8 @@ export default function SavedPage() {
             <div>
               <SectionHeading title="Saved Stays" />
               <FadeInGrid className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                {savedHotels.map((h) => (
-                  <FadeInItem key={h.id}>
+                {savedHotels.map((h, i) => (
+                  <FadeInItem key={h.id} index={i}>
                     <HotelCard hotel={h} saved onToggleSave={() => toggleWishlistItem("hotels", h.id)} />
                   </FadeInItem>
                 ))}
@@ -51,8 +51,8 @@ export default function SavedPage() {
             <div>
               <SectionHeading title="Saved Activities" />
               <FadeInGrid className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                {savedActivities.map((a) => (
-                  <FadeInItem key={a.id}>
+                {savedActivities.map((a, i) => (
+                  <FadeInItem key={a.id} index={i}>
                     <ActivityCard activity={a} saved onToggleSave={() => toggleWishlistItem("activities", a.id)} />
                   </FadeInItem>
                 ))}
@@ -63,8 +63,8 @@ export default function SavedPage() {
             <div>
               <SectionHeading title="Saved Destinations" />
               <FadeInGrid className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                {savedDestinations.map((d) => (
-                  <FadeInItem key={d.id}>
+                {savedDestinations.map((d, i) => (
+                  <FadeInItem key={d.id} index={i}>
                     <DestinationCard destination={d} />
                   </FadeInItem>
                 ))}

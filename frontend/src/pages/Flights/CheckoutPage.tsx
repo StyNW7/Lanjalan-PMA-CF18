@@ -8,11 +8,13 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
+import { PromoCodeInput } from "@/components/travel/PromoCodeInput"
 import { formatIDR } from "@/lib/format"
 import { flights } from "@/data/flights"
 import { useAppState } from "@/context/app-state"
 import { cn } from "@/lib/utils"
 import type { Flight } from "@/data/types"
+import type { PromoApplication } from "@/data/promotions"
 
 const paymentMethods = [
   { id: "card", label: "Credit / Debit Card", icon: CreditCard },
@@ -31,12 +33,15 @@ export default function FlightCheckoutPage() {
   const [baggage, setBaggage] = useState(false)
   const [payment, setPayment] = useState("card")
   const [submitting, setSubmitting] = useState(false)
+  const [promo, setPromo] = useState<PromoApplication | null>(null)
 
   const baseFare = flight.price * 2
   const protectionFee = protection ? 45000 : 0
   const baggageFee = baggage ? 150000 : 0
   const taxes = Math.round(baseFare * 0.08)
-  const total = baseFare + protectionFee + baggageFee + taxes
+  const subtotal = baseFare + protectionFee + baggageFee + taxes
+  const discount = promo ? Math.min(promo.discount, subtotal) : 0
+  const total = subtotal - discount
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -167,6 +172,21 @@ export default function FlightCheckoutPage() {
             <div className="flex justify-between"><span className="text-muted-foreground">Taxes & Fees</span><span className="text-foreground">{formatIDR(taxes)}</span></div>
             {baggage && <div className="flex justify-between"><span className="text-muted-foreground">Extra Baggage</span><span className="text-foreground">{formatIDR(baggageFee)}</span></div>}
             {protection && <div className="flex justify-between"><span className="text-muted-foreground">Travel Protection</span><span className="text-foreground">{formatIDR(protectionFee)}</span></div>}
+            {promo && (
+              <div className="flex justify-between font-semibold text-success">
+                <span>Promo ({promo.promo.code})</span>
+                <span>-{formatIDR(discount)}</span>
+              </div>
+            )}
+          </div>
+          <div className="my-4">
+            <PromoCodeInput
+              subtotal={subtotal}
+              product="Flights"
+              applied={promo}
+              onApply={setPromo}
+              onRemove={() => setPromo(null)}
+            />
           </div>
           <div className="my-4 h-px bg-border" />
           <div className="flex justify-between text-base font-extrabold text-foreground">

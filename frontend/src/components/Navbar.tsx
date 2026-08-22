@@ -13,6 +13,7 @@ import {
   HelpCircle,
   User,
   Search,
+  Heart,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
@@ -98,7 +99,7 @@ export default function Navbar() {
           {secondaryNav.map((item) => (
             <Button key={item.href} asChild variant="ghost" size="icon" aria-label={item.label}>
               <Link to={item.href}>
-                <item.icon className="h-4.5 w-4.5" />
+                <item.icon className="h-5 w-5" />
               </Link>
             </Button>
           ))}
@@ -106,8 +107,8 @@ export default function Navbar() {
 
         <div className="flex items-center gap-2">
           <Button asChild variant="ghost" size="icon" className="hidden sm:inline-flex" aria-label="Search">
-            <Link to="/explore">
-              <Search className="h-4.5 w-4.5" />
+            <Link to="/search">
+              <Search className="h-5 w-5" />
             </Link>
           </Button>
 
@@ -153,7 +154,7 @@ export default function Navbar() {
                     to={item.href}
                     className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold text-foreground hover:bg-muted"
                   >
-                    <item.icon className="h-4.5 w-4.5 text-primary" /> {item.label}
+                    <item.icon className="h-5 w-5 text-primary" /> {item.label}
                   </Link>
                 ))}
                 <div className="my-2 h-px bg-border" />
@@ -163,12 +164,18 @@ export default function Navbar() {
                     to={item.href}
                     className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold text-foreground hover:bg-muted"
                   >
-                    <item.icon className="h-4.5 w-4.5 text-primary" /> {item.label}
+                    <item.icon className="h-5 w-5 text-primary" /> {item.label}
                   </Link>
                 ))}
                 <div className="my-2 h-px bg-border" />
+                <Link to="/search" className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold text-foreground hover:bg-muted">
+                  <Search className="h-5 w-5 text-primary" /> Search
+                </Link>
+                <Link to="/saved" className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold text-foreground hover:bg-muted">
+                  <Heart className="h-5 w-5 text-primary" /> Saved
+                </Link>
                 <Link to="/profile" className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold text-foreground hover:bg-muted">
-                  <User className="h-4.5 w-4.5 text-primary" /> Profile
+                  <User className="h-5 w-5 text-primary" /> Profile
                 </Link>
               </nav>
             </SheetContent>

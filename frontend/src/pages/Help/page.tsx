@@ -1,5 +1,8 @@
 import { useMemo, useState } from "react"
-import { Search, HelpCircle, Plane, Hotel as HotelIcon, Ticket, Compass, CreditCard, RotateCcw, User } from "lucide-react"
+import { Link } from "react-router-dom"
+import { Search, HelpCircle, Plane, Hotel as HotelIcon, Ticket, Compass, CreditCard, RotateCcw, User, ChevronDown, MessageCircle, Briefcase } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { cn } from "@/lib/utils"
 import { Input } from "@/components/ui/input"
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -19,6 +22,12 @@ const categoryIcon = {
 export default function HelpPage() {
   const [query, setQuery] = useState("")
   const [category, setCategory] = useState<string | null>(null)
+  const [openId, setOpenId] = useState<string | null>(null)
+
+  function clearFilters() {
+    setQuery("")
+    setCategory(null)
+  }
 
   const filtered = useMemo(() => {
     return faqs.filter((f) => {
@@ -72,19 +81,50 @@ export default function HelpPage() {
 
         <div className="mx-auto mt-8 max-w-2xl space-y-3">
           {filtered.length === 0 ? (
-            <EmptyState icon={HelpCircle} title="No results found" description="Try a different search term or browse all topics." />
+            <EmptyState
+              icon={HelpCircle}
+              title="No results found"
+              description="Try a different search term or browse all topics."
+              actionLabel="Clear Search"
+              onAction={clearFilters}
+            />
           ) : (
-            filtered.map((f) => (
-              <Card key={f.id} className="p-5">
-                <div className="flex items-center justify-between gap-2">
-                  <p className="font-semibold text-foreground">{f.question}</p>
-                  <Badge variant="muted">{f.category}</Badge>
-                </div>
-                <p className="mt-2 text-sm text-muted-foreground">{f.answer}</p>
-              </Card>
-            ))
+            filtered.map((f) => {
+              const open = openId === f.id
+              return (
+                <Card key={f.id} className="overflow-hidden">
+                  <button
+                    type="button"
+                    onClick={() => setOpenId(open ? null : f.id)}
+                    aria-expanded={open}
+                    className="flex w-full items-center justify-between gap-3 p-5 text-left transition-colors hover:bg-muted/40"
+                  >
+                    <span className="min-w-0 font-semibold text-foreground">{f.question}</span>
+                    <span className="flex shrink-0 items-center gap-2">
+                      <Badge variant="muted" className="hidden sm:inline-flex">{f.category}</Badge>
+                      <ChevronDown className={cn("h-4 w-4 text-muted-foreground transition-transform", open && "rotate-180")} />
+                    </span>
+                  </button>
+                  {open && <p className="border-t border-border px-5 py-4 text-sm text-muted-foreground">{f.answer}</p>}
+                </Card>
+              )
+            })
           )}
         </div>
+
+        <Card className="mx-auto mt-10 flex max-w-2xl flex-col items-center gap-3 p-8 text-center">
+          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary-light">
+            <MessageCircle className="h-6 w-6 text-primary" />
+          </div>
+          <h2 className="text-lg font-bold text-foreground">Still need a hand?</h2>
+          <p className="max-w-md text-sm text-muted-foreground">
+            Our travel support team is available 24/7 for anything a booking or itinerary throws at you.
+          </p>
+          <div className="mt-1 flex flex-wrap justify-center gap-3">
+            <Button asChild className="gap-1.5"><Link to="/trips"><Briefcase className="h-4 w-4" /> Go to My Trips</Link></Button>
+            <Button asChild variant="outline"><Link to="/transactions">View Transactions</Link></Button>
+          </div>
+        </Card>
       </section>
     </div>
   )

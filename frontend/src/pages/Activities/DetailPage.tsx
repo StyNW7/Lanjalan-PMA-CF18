@@ -6,10 +6,12 @@ import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { StarRating } from "@/components/travel/StarRating"
+import { PromoCodeInput } from "@/components/travel/PromoCodeInput"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog"
 import { formatIDR } from "@/lib/format"
 import { getActivityById } from "@/data/activities"
 import { useAppState } from "@/context/app-state"
+import type { PromoApplication } from "@/data/promotions"
 import { cn } from "@/lib/utils"
 
 export default function ActivityDetailPage() {
@@ -19,6 +21,7 @@ export default function ActivityDetailPage() {
   const { wishlist, toggleWishlistItem, toggleActivityBooked, trip } = useAppState()
   const [confirmOpen, setConfirmOpen] = useState(false)
   const [guests] = useState(2)
+  const [promo, setPromo] = useState<PromoApplication | null>(null)
 
   if (!activity) {
     return (
@@ -31,6 +34,8 @@ export default function ActivityDetailPage() {
 
   const saved = wishlist.activities.includes(activity.id)
   const total = activity.price * guests
+  const discount = promo ? Math.min(promo.discount, total) : 0
+  const grandTotal = total - discount
   const hasCompassContext = trip.compass.generated
 
   function handleBook() {
@@ -96,10 +101,25 @@ export default function ActivityDetailPage() {
             <span className="text-muted-foreground">{formatIDR(activity.price)} x {guests} guests</span>
             <span className="text-foreground">{formatIDR(total)}</span>
           </div>
+          {promo && (
+            <div className="mt-2 flex justify-between text-sm font-semibold text-success">
+              <span>Promo ({promo.promo.code})</span>
+              <span>-{formatIDR(discount)}</span>
+            </div>
+          )}
+          <div className="my-4">
+            <PromoCodeInput
+              subtotal={total}
+              product="Activities"
+              applied={promo}
+              onApply={setPromo}
+              onRemove={() => setPromo(null)}
+            />
+          </div>
           <div className="my-4 h-px bg-border" />
           <div className="flex justify-between text-base font-extrabold text-foreground">
             <span>Total</span>
-            <span>{formatIDR(total)}</span>
+            <span>{formatIDR(grandTotal)}</span>
           </div>
           <Button size="lg" className="mt-6 w-full" onClick={handleBook}>Book This Activity</Button>
         </Card>

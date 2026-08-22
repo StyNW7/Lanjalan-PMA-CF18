@@ -50,6 +50,8 @@ export default function DestinationDetailPage() {
   const flightSearchHref = destination.airportCode
     ? `/flights/results?origin=CGK&destination=${destination.airportCode}`
     : "/flights"
+  const hotelsHref = `/hotels/results?destination=${encodeURIComponent(destination.name)}`
+  const activitiesHref = `/activities/results?city=${encodeURIComponent(destination.name)}`
 
   return (
     <div className="flex flex-col">
@@ -130,10 +132,10 @@ export default function DestinationDetailPage() {
               <Link to={flightSearchHref}><Plane className="h-4 w-4" /> Search Flights</Link>
             </Button>
             <Button asChild size="lg" variant="outline" className="w-full gap-1.5">
-              <Link to="/hotels/results"><Building2 className="h-4 w-4" /> Browse Hotels</Link>
+              <Link to={hotelsHref}><Building2 className="h-4 w-4" /> Browse Hotels</Link>
             </Button>
             <Button asChild size="lg" variant="outline" className="w-full gap-1.5">
-              <Link to="/activities/results"><Ticket className="h-4 w-4" /> Browse Activities</Link>
+              <Link to={activitiesHref}><Ticket className="h-4 w-4" /> Browse Activities</Link>
             </Button>
           </div>
           <div className="my-5 h-px bg-border" />
@@ -160,13 +162,13 @@ export default function DestinationDetailPage() {
             title="No featured hotels yet"
             description={`We're still adding hotel listings for ${destination.name}. Browse all hotels in the meantime.`}
             actionLabel="Browse All Hotels"
-            onAction={() => navigate("/hotels/results")}
+            onAction={() => navigate(hotelsHref)}
             className="mt-6"
           />
         ) : (
           <FadeInGrid className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {hotels.slice(0, 3).map((hotel) => (
-              <FadeInItem key={hotel.id}>
+            {hotels.slice(0, 3).map((hotel, i) => (
+              <FadeInItem key={hotel.id} index={i}>
                 <HotelCard
                   hotel={hotel}
                   saved={wishlist.hotels.includes(hotel.id)}
@@ -188,13 +190,13 @@ export default function DestinationDetailPage() {
               title="No featured activities yet"
               description={`We're still adding activities for ${destination.name}. Browse all activities in the meantime.`}
               actionLabel="Browse All Activities"
-              onAction={() => navigate("/activities/results")}
+              onAction={() => navigate(activitiesHref)}
               className="mt-6"
             />
           ) : (
             <FadeInGrid className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {activities.slice(0, 3).map((activity) => (
-                <FadeInItem key={activity.id}>
+              {activities.slice(0, 3).map((activity, i) => (
+                <FadeInItem key={activity.id} index={i}>
                   <ActivityCard
                     activity={activity}
                     saved={wishlist.activities.includes(activity.id)}
@@ -211,7 +213,7 @@ export default function DestinationDetailPage() {
       <section className="container py-14">
         <SectionHeading eyebrow="Keep Exploring" title="You Might Also Like" />
         <FadeInGrid className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {related.map((d) => <FadeInItem key={d.id}><DestinationCard destination={d} /></FadeInItem>)}
+          {related.map((d, i) => <FadeInItem key={d.id} index={i}><DestinationCard destination={d} /></FadeInItem>)}
         </FadeInGrid>
       </section>
 

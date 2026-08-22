@@ -34,7 +34,7 @@ export default function ExplorePage() {
       <section className="container py-14">
         <SectionHeading title="Trending Destinations" description="Where travelers are booking most this season." />
         <FadeInGrid className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {trending.map((d) => <FadeInItem key={d.id}><DestinationCard destination={d} /></FadeInItem>)}
+          {trending.map((d, i) => <FadeInItem key={d.id} index={i}><DestinationCard destination={d} /></FadeInItem>)}
         </FadeInGrid>
       </section>
 
@@ -42,7 +42,7 @@ export default function ExplorePage() {
         <div className="container">
           <SectionHeading title="Weekend Escapes" description="Short trips that fit into a Friday-to-Sunday getaway." />
           <FadeInGrid className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {weekend.map((d) => <FadeInItem key={d.id}><DestinationCard destination={d} /></FadeInItem>)}
+            {weekend.map((d, i) => <FadeInItem key={d.id} index={i}><DestinationCard destination={d} /></FadeInItem>)}
           </FadeInGrid>
         </div>
       </section>
@@ -54,7 +54,7 @@ export default function ExplorePage() {
           description="Based on trending picks and traveler favorites."
         />
         <FadeInGrid className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {recommended.map((d) => <FadeInItem key={d.id}><DestinationCard destination={d} /></FadeInItem>)}
+          {recommended.map((d, i) => <FadeInItem key={d.id} index={i}><DestinationCard destination={d} /></FadeInItem>)}
         </FadeInGrid>
       </section>
 
@@ -62,8 +62,8 @@ export default function ExplorePage() {
         <div className="container">
           <SectionHeading title="Travel Guides" description="Ready-made itineraries you can build on with Compass." />
           <FadeInGrid className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {guides.map((guide) => (
-              <FadeInItem key={guide.id}>
+            {guides.map((guide, i) => (
+              <FadeInItem key={guide.id} index={i}>
                 <Card className="overflow-hidden transition-shadow hover:shadow-card">
                   <img src={guide.image} alt={guide.title} className="h-40 w-full object-cover" />
                   <div className="p-5">

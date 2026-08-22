@@ -26,7 +26,7 @@ export default function CompassTripWorkspacePage() {
   const destination = trip.destination || claraPersona.destination
   const travelers = trip.travelers || claraPersona.travelers
 
-  const flightBooked = trip.flight.booked || true
+  const flightBooked = trip.flight.booked
   const hotelBooked = trip.hotel.booked
   const activitiesPlanned = trip.activities.bookedIds.length
   const activitiesTotal = 4
@@ -66,8 +66,20 @@ export default function CompassTripWorkspacePage() {
   }
 
   function handleRegenerateDay() {
-    updateDayItems(activeDay, (items) => items.map((it) => (it.locked ? it : { ...it })))
-    toast.success(`Day ${activeDay} refreshed with your locked items kept in place.`)
+    // Locked items hold their slot; everything else is reshuffled around them.
+    updateDayItems(activeDay, (items) => {
+      const unlocked = items.filter((it) => !it.locked)
+      if (unlocked.length < 2) return items
+      const rotated = [...unlocked.slice(1), unlocked[0]]
+      let next = 0
+      return items.map((it) => (it.locked ? it : { ...rotated[next++], time: it.time }))
+    })
+    const lockedCount = currentDay.items.filter((it) => it.locked).length
+    toast.success(
+      lockedCount > 0
+        ? `Day ${activeDay} refreshed — ${lockedCount} locked ${lockedCount === 1 ? "item" : "items"} kept in place.`
+        : `Day ${activeDay} refreshed.`
+    )
   }
 
   return (
@@ -128,8 +140,8 @@ export default function CompassTripWorkspacePage() {
             </Button>
           </div>
           <FadeInGrid key={activeDay} className="space-y-4">
-            {currentDay.items.map((item) => (
-              <FadeInItem key={item.id}>
+            {currentDay.items.map((item, i) => (
+              <FadeInItem key={item.id} index={i}>
                 <ItineraryItemCard
                   item={item}
                   onLockToggle={() => handleToggleLock(item.id)}
@@ -142,7 +154,7 @@ export default function CompassTripWorkspacePage() {
           <Button
             variant="ghost"
             className="mt-4 w-full gap-1.5 border border-dashed border-border"
-            onClick={() => toast.success("More activities added for this day.")}
+            onClick={() => navigate(`/activities/results?city=${encodeURIComponent(destination)}`)}
           >
             <Plus className="h-4 w-4" /> Add Activity
           </Button>

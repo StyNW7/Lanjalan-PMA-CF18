@@ -1,4 +1,5 @@
 import { useParams, Link } from "react-router-dom"
+import toast from "react-hot-toast"
 import {
   Plane,
   Hotel as HotelIcon,
@@ -9,6 +10,7 @@ import {
   ArrowRight,
   CheckCircle2,
   Circle,
+  Download,
 } from "lucide-react"
 import { Breadcrumb } from "@/components/ui/breadcrumb"
 import { Card } from "@/components/ui/card"
@@ -112,7 +114,14 @@ export default function TripDetailPage() {
               {["Flight E-Ticket", "Hotel Booking Confirmation"].map((doc) => (
                 <div key={doc} className="flex items-center justify-between rounded-xl border border-border px-4 py-3 text-sm">
                   <span className="text-foreground">{doc}</span>
-                  <Button variant="ghost" size="sm">Download</Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="gap-1.5"
+                    onClick={() => toast.success(`${doc} downloaded.`)}
+                  >
+                    <Download className="h-3.5 w-3.5" /> Download
+                  </Button>
                 </div>
               ))}
             </div>

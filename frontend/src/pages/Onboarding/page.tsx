@@ -41,10 +41,11 @@ const priorities = [
 
 export default function OnboardingPage() {
   const navigate = useNavigate()
-  const { completeOnboarding, skipOnboarding } = useAppState()
+  const { onboarding, completeOnboarding, skipOnboarding } = useAppState()
   const [step, setStep] = useState(1)
-  const [travelerType, setTravelerType] = useState<string | null>(null)
-  const [selectedPriorities, setSelectedPriorities] = useState<string[]>([])
+  // Prefilled so "Update Preferences" from the profile edits rather than restarts.
+  const [travelerType, setTravelerType] = useState<string | null>(onboarding.travelerType)
+  const [selectedPriorities, setSelectedPriorities] = useState<string[]>(onboarding.priorities)
 
   function togglePriority(id: string) {
     setSelectedPriorities((prev) => (prev.includes(id) ? prev.filter((p) => p !== id) : [...prev, id]))
@@ -103,12 +104,16 @@ export default function OnboardingPage() {
             {step === 2 && (
               <motion.div key="step2" initial={{ opacity: 0, x: 24 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -24 }} transition={{ duration: 0.3 }}>
                 <h1 className="text-center text-2xl font-extrabold text-foreground">What kind of traveler are you?</h1>
-                <p className="mt-2 text-center text-sm text-muted-foreground">This helps us tailor recommendations. Optional.</p>
+                <p className="mt-2 text-center text-sm text-muted-foreground">
+                  This helps us tailor recommendations. Optional — tap again to unselect.
+                </p>
                 <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3">
                   {travelerTypes.map((type) => (
                     <button
                       key={type.id}
-                      onClick={() => setTravelerType(type.id)}
+                      type="button"
+                      aria-pressed={travelerType === type.id}
+                      onClick={() => setTravelerType(travelerType === type.id ? null : type.id)}
                       className={`flex flex-col items-center gap-2 rounded-2xl border-2 p-5 transition-colors ${
                         travelerType === type.id ? "border-primary bg-primary-light" : "border-border bg-card hover:border-primary/40"
                       }`}
@@ -139,6 +144,8 @@ export default function OnboardingPage() {
                     return (
                       <button
                         key={p.id}
+                        type="button"
+                        aria-pressed={active}
                         onClick={() => togglePriority(p.id)}
                         className={`flex items-center gap-2 rounded-full border-2 px-5 py-2.5 text-sm font-semibold transition-colors ${
                           active ? "border-primary bg-primary-light text-primary-dark" : "border-border bg-card text-foreground hover:border-primary/40"

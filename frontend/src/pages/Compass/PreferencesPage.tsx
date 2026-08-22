@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { MapPinned, CalendarDays, Clock3, Users, ArrowRight, ShieldCheck } from "lucide-react"
+import { MapPinned, CalendarDays, Clock3, Users, ArrowRight, ShieldCheck, RotateCcw } from "lucide-react"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
@@ -27,6 +27,21 @@ export default function CompassPreferencesPage() {
     setInterests((prev) => (prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]))
   }
 
+  // Single-choice groups toggle off when re-selected, so "no preference" stays reachable.
+  function pickOne(current: string | null, value: string, set: (v: string | null) => void) {
+    set(current === value ? null : value)
+  }
+
+  function clearAll() {
+    setBudget(null)
+    setStyle(null)
+    setInterests([])
+    setPace(null)
+  }
+
+  const selectionCount =
+    (budget ? 1 : 0) + (style ? 1 : 0) + (pace ? 1 : 0) + interests.length
+
   function handleGenerate() {
     setCompassPreferences({ budget, style, interests, pace })
     navigate("/compass/generating")
@@ -52,14 +67,29 @@ export default function CompassPreferencesPage() {
         </div>
       </Card>
 
-      <div className="mt-8 space-y-8">
+      <div className="mt-8 flex flex-wrap items-center justify-between gap-3">
+        <p className="text-sm text-muted-foreground">
+          {selectionCount === 0
+            ? "Nothing selected yet — Compass will use your booking details only."
+            : `${selectionCount} preference${selectionCount === 1 ? "" : "s"} selected. Tap a selected option again to remove it.`}
+        </p>
+        {selectionCount > 0 && (
+          <Button variant="ghost" size="sm" className="gap-1.5" onClick={clearAll}>
+            <RotateCcw className="h-3.5 w-3.5" /> Clear all
+          </Button>
+        )}
+      </div>
+
+      <div className="mt-6 space-y-8">
         <div>
           <h2 className="font-bold text-foreground">Budget</h2>
           <div className="mt-3 flex flex-wrap gap-2.5">
             {budgetOptions.map((opt) => (
               <button
                 key={opt.id}
-                onClick={() => setBudget(opt.id)}
+                type="button"
+                aria-pressed={budget === opt.id}
+                onClick={() => pickOne(budget, opt.id, setBudget)}
                 className={cn(
                   "rounded-full border-2 px-4 py-2 text-sm font-semibold transition-colors",
                   budget === opt.id ? "border-primary bg-primary-light text-primary-dark" : "border-border text-foreground hover:border-primary/40"
@@ -77,7 +107,9 @@ export default function CompassPreferencesPage() {
             {travelStyleOptions.map((opt) => (
               <button
                 key={opt.id}
-                onClick={() => setStyle(opt.id)}
+                type="button"
+                aria-pressed={style === opt.id}
+                onClick={() => pickOne(style, opt.id, setStyle)}
                 className={cn(
                   "rounded-full border-2 px-4 py-2 text-sm font-semibold transition-colors",
                   style === opt.id ? "border-primary bg-primary-light text-primary-dark" : "border-border text-foreground hover:border-primary/40"
@@ -95,6 +127,8 @@ export default function CompassPreferencesPage() {
             {interestOptions.map((opt) => (
               <button
                 key={opt}
+                type="button"
+                aria-pressed={interests.includes(opt)}
                 onClick={() => toggleInterest(opt)}
                 className={cn(
                   "rounded-full border-2 px-4 py-2 text-sm font-semibold transition-colors",
@@ -113,7 +147,9 @@ export default function CompassPreferencesPage() {
             {paceOptions.map((opt) => (
               <button
                 key={opt.id}
-                onClick={() => setPace(opt.id)}
+                type="button"
+                aria-pressed={pace === opt.id}
+                onClick={() => pickOne(pace, opt.id, setPace)}
                 className={cn(
                   "rounded-full border-2 px-4 py-2 text-sm font-semibold transition-colors",
                   pace === opt.id ? "border-primary bg-primary-light text-primary-dark" : "border-border text-foreground hover:border-primary/40"

@@ -96,6 +96,10 @@ export interface Promotion {
   category: "Flights" | "Hotels" | "Activities" | "Bundles"
   code: string
   discount: string
+  /** Percentage taken off the eligible subtotal, when the promo is percentage-based. */
+  discountPercent?: number
+  /** Flat IDR amount taken off, when the promo is a fixed-value voucher. */
+  discountAmount?: number
   expiration: string
   terms: string
   image: string

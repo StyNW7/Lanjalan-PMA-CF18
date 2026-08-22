@@ -11,6 +11,8 @@ export default function BookingSuccessPage() {
   const { trip } = useAppState()
   const navigate = useNavigate()
   const [dismissed, setDismissed] = useState(false)
+  // Generated once so the booking ID stays stable across re-renders.
+  const [bookingId] = useState(() => `LJ-FL-${Math.floor(10000 + Math.random() * 89999)}`)
 
   const destination = trip.destination || "Bali"
   const duration = trip.duration || "4D3N"
@@ -38,10 +40,15 @@ export default function BookingSuccessPage() {
             </div>
             <div>
               <p className="font-bold text-foreground">{trip.flight.summary || "Jakarta → Bali · Garuda Indonesia GA 402"}</p>
-              <p className="text-sm text-muted-foreground">Booking ID: LJ-FL-{Math.floor(10000 + Math.random() * 89999)}</p>
+              <p className="text-sm text-muted-foreground">Booking ID: {bookingId}</p>
             </div>
           </div>
-          <Button variant="outline" size="sm" className="gap-1.5">
+          <Button
+            variant="outline"
+            size="sm"
+            className="shrink-0 gap-1.5"
+            onClick={() => toast.success(`E-ticket ${bookingId} downloaded.`)}
+          >
             <Download className="h-4 w-4" /> E-Ticket
           </Button>
         </div>
@@ -68,7 +75,8 @@ export default function BookingSuccessPage() {
       )}
 
       {dismissed && (
-        <div className="mt-8 text-center">
+        <div className="mt-8 flex flex-wrap justify-center gap-3">
+          <Button onClick={() => navigate("/trips")}>Go to My Trips</Button>
           <Button variant="outline" onClick={() => navigate("/")}>Back to Home</Button>
         </div>
       )}

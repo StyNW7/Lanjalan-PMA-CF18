@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, Link } from "react-router-dom"
 import { Plane, Hotel as HotelIcon, Ticket, ArrowLeftRight, MapPin, CalendarDays, Users, Compass } from "lucide-react"
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 import { Input } from "@/components/ui/input"
@@ -7,15 +7,31 @@ import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"
 import { airports } from "@/data/flights"
+import { hotels } from "@/data/hotels"
+
+const hotelCities = Array.from(new Set(hotels.map((h) => h.city)))
 
 export function SearchWidget() {
   const navigate = useNavigate()
   const [origin, setOrigin] = useState("CGK")
   const [destination, setDestination] = useState("DPS")
+  const [hotelCity, setHotelCity] = useState(hotelCities[0] || "Bali")
+  const [activityQuery, setActivityQuery] = useState("")
 
   function handleFlightSearch(e: React.FormEvent) {
     e.preventDefault()
     navigate(`/flights/results?origin=${origin}&destination=${destination}`)
+  }
+
+  function handleHotelSearch(e: React.FormEvent) {
+    e.preventDefault()
+    navigate(`/hotels/results?destination=${encodeURIComponent(hotelCity)}`)
+  }
+
+  function handleActivitySearch(e: React.FormEvent) {
+    e.preventDefault()
+    const term = activityQuery.trim()
+    navigate(term ? `/activities/results?q=${encodeURIComponent(term)}` : "/activities/results")
   }
 
   return (
@@ -86,23 +102,24 @@ export function SearchWidget() {
                 <Plane className="h-4 w-4" /> Search Flights
               </Button>
               <Button asChild type="button" size="lg" variant="outline" className="gap-1.5">
-                <a href="/compass"><Compass className="h-4 w-4" /> Plan with Compass</a>
+                <Link to="/compass"><Compass className="h-4 w-4" /> Plan with Compass</Link>
               </Button>
             </div>
           </form>
         </TabsContent>
 
         <TabsContent value="hotels">
-          <form
-            onSubmit={(e) => { e.preventDefault(); navigate("/hotels/results") }}
-            className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4"
-          >
+          <form onSubmit={handleHotelSearch} className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <div className="lg:col-span-1">
               <Label htmlFor="hotel-dest">Destination</Label>
-              <div className="relative mt-1.5">
-                <MapPin className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                <Input id="hotel-dest" defaultValue="Bali, Indonesia" className="pl-9" />
-              </div>
+              <Select value={hotelCity} onValueChange={setHotelCity}>
+                <SelectTrigger id="hotel-dest" className="mt-1.5"><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  {hotelCities.map((city) => (
+                    <SelectItem key={city} value={city}>{city}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
             <div className="lg:col-span-1">
               <Label htmlFor="checkin">Check-in</Label>
@@ -134,15 +151,18 @@ export function SearchWidget() {
         </TabsContent>
 
         <TabsContent value="activities">
-          <form
-            onSubmit={(e) => { e.preventDefault(); navigate("/activities/results") }}
-            className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
-          >
+          <form onSubmit={handleActivitySearch} className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             <div className="lg:col-span-2">
               <Label htmlFor="act-dest">Destination or Experience</Label>
               <div className="relative mt-1.5">
                 <MapPin className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                <Input id="act-dest" placeholder="Search Bali, Uluwatu Temple, cooking class..." className="pl-9" />
+                <Input
+                  id="act-dest"
+                  value={activityQuery}
+                  onChange={(e) => setActivityQuery(e.target.value)}
+                  placeholder="Search Bali, Uluwatu Temple, cooking class..."
+                  className="pl-9"
+                />
               </div>
             </div>
             <div className="lg:col-span-1">

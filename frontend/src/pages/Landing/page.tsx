@@ -127,15 +127,20 @@ export default function LandingPage() {
               viewport={{ once: true }}
               transition={{ delay: i * 0.08, duration: 0.4 }}
             >
-              <Link to={card.href}>
-                <Card className="group h-full p-6 transition-all hover:-translate-y-1 hover:shadow-card">
+              <Link
+                to={card.href}
+                className="group block h-full rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              >
+                <Card className="h-full p-6 transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-card">
                   <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary-light text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
                     <card.icon className="h-6 w-6" />
                   </div>
                   <h3 className="mt-4 font-bold text-foreground">{card.title}</h3>
                   <p className="mt-1.5 text-sm text-muted-foreground">{card.description}</p>
-                  <span className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-primary opacity-0 transition-opacity group-hover:opacity-100">
-                    Explore <ArrowRight className="h-3.5 w-3.5" />
+                  {/* Always visible: hover-only affordances are invisible on touch devices. */}
+                  <span className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-primary">
+                    Explore
+                    <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
                   </span>
                 </Card>
               </Link>

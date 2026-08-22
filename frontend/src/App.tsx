@@ -35,6 +35,8 @@ import ActivityDetailPage from "@/pages/Activities/DetailPage";
 
 import ExplorePage from "@/pages/Explore/page";
 import DealsPage from "@/pages/Deals/page";
+import DealDetailPage from "@/pages/Deals/DetailPage";
+import SearchPage from "@/pages/Search/page";
 import DestinationDetailPage from "@/pages/Destinations/DetailPage";
 
 import CompassIntroPage from "@/pages/Compass/IntroPage";
@@ -88,6 +90,8 @@ function App() {
                   <Route path="explore" element={<ExplorePage />} />
                   <Route path="destinations/:id" element={<DestinationDetailPage />} />
                   <Route path="deals" element={<DealsPage />} />
+                  <Route path="deals/:id" element={<DealDetailPage />} />
+                  <Route path="search" element={<SearchPage />} />
 
                   <Route path="compass" element={<CompassIntroPage />} />
                   <Route path="compass/preferences" element={<CompassPreferencesPage />} />
